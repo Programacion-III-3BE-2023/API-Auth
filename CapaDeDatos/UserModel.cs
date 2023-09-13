@@ -15,20 +15,21 @@ namespace CapaDeDatos
         public string Username;
         public string Password;
 
-        private int id;
-        private string tipo;
+        public int Id;
+        public string Tipo;
 
         public void Save()
         {
-            this.Command.CommandText = 
+            this.Command.CommandText =
                 $"INSERT INTO User(username,password) " +
                 $"VALUES ('{this.Username}','{Hash.Content(this.Password)}')";
 
             this.Command.ExecuteNonQuery();
         }
 
-        public Dictionary<string,string> Login()
+        public bool Get()
         {
+
             Dictionary<string, string> resultado = new Dictionary<string, string>();
 
             this.Command.CommandText = $"SELECT id, username, password, tipo " +
@@ -38,20 +39,17 @@ namespace CapaDeDatos
             if (this.Reader.HasRows)
             {
                 this.Reader.Read();
-                string dbPassword = this.Reader["password"].ToString();
+                this.Id = Int32.Parse(this.Reader["id"].ToString());
+                this.Username = this.Reader["username"].ToString();
+                this.Password = this.Reader["password"].ToString();
+                this.Tipo = this.Reader["tipo"].ToString();
 
-                if (Hash.Content(this.Password) == dbPassword)
-                {
-                    resultado.Add("resultado", "OK");
-                    resultado.Add("tipo", this.Reader["tipo"].ToString());
-                    return resultado;
-                }
-                    
+                return true;
             }
-            resultado.Add("resultado", "Error");
 
-            return resultado;
+            return false;
 
         }
     }
+    
 }

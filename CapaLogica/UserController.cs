@@ -19,10 +19,11 @@ namespace CapaLogica
 
         public static Dictionary<string,string> Login(string username, string password)
         {
-            UserModel user = new UserModel();
-            user.Username = username;
-            user.Password = password;
-            return user.Login();
+            Dictionary<string, string> resultado = new Dictionary<string, string>();
+            resultado = Auth.Login(username, password);
+            return resultado;
+
+               
         }
     }
 }
