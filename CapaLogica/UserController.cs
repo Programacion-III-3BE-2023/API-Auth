@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CapaDeDatos;
+using System.Data;
+
 
 namespace CapaLogica
 {
@@ -22,8 +24,27 @@ namespace CapaLogica
             Dictionary<string, string> resultado = new Dictionary<string, string>();
             resultado = Auth.Login(username, password);
             return resultado;
+        }
 
-               
+        public static List<Dictionary<string,string>> ObtenerTodos()
+        {
+            UserModel user = new UserModel();
+            List<UserModel> users = user.Todos();
+
+            List<Dictionary<string, string>> resultado = new List<Dictionary<string, string>>();
+
+            foreach (UserModel u in users)
+            {
+                Dictionary<string, string> elemento = new Dictionary<string, string>();
+                elemento.Add("Id", u.Id.ToString());
+                elemento.Add("Username",u.Username);
+                elemento.Add("Tipo", u.Tipo);
+
+                resultado.Add(elemento);
+            }
+            return resultado;
+
+
         }
     }
 }

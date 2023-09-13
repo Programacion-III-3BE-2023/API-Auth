@@ -11,9 +11,15 @@ namespace API_Auth.Controllers
     public class UserController : ApiController
     {
         [Route("api/user")]
+        public IHttpActionResult Get()
+        {
+            return Ok(CapaLogica.UserController.ObtenerTodos());
+        }
+
+        [Route("api/user")]
         public void Post([FromBody]string value)
         {
-            CapaLogica.UserController.Crear("usuario", "12345");
+            CapaLogica.UserController.Crear("jacinto", "12345");
             
         }
 

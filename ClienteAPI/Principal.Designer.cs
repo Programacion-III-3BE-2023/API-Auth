@@ -32,6 +32,8 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblResultado = new System.Windows.Forms.Label();
             this.lblTipo = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblId
@@ -70,17 +72,29 @@
             this.lblTipo.TabIndex = 3;
             this.lblTipo.Text = "label4";
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(324, 53);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 33;
+            this.dataGridView1.Size = new System.Drawing.Size(555, 324);
+            this.dataGridView1.TabIndex = 4;
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1049, 547);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblTipo);
             this.Controls.Add(this.lblResultado);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblId);
             this.Name = "Principal";
             this.Text = "Principal";
+            this.Load += new System.EventHandler(this.Principal_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,5 +106,6 @@
         private System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.Label lblResultado;
         private System.Windows.Forms.Label lblTipo;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

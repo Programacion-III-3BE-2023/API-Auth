@@ -50,6 +50,27 @@ namespace CapaDeDatos
             return false;
 
         }
+
+        public List<UserModel> Todos()
+        {
+            this.Command.CommandText = "SELECT * FROM User";
+            this.Reader = this.Command.ExecuteReader();
+
+            List<UserModel> resultado = new List<UserModel>();
+
+            while (this.Reader.Read())
+            {
+                UserModel elemento = new UserModel();
+                elemento.Id = Int32.Parse(this.Reader["Id"].ToString());
+                elemento.Username = this.Reader["username"].ToString();
+                elemento.Tipo = (this.Reader["tipo"].ToString());
+                resultado.Add(elemento);
+
+            }
+
+            return resultado;
+        }
+
     }
-    
+
 }
