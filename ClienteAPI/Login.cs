@@ -5,23 +5,15 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
-using System.Collections.Specialized;
 using Newtonsoft.Json;
-using System.IO;
 using RestSharp;
+
+
 
 namespace ClienteAPI
 {
-    public class ResultadoLogin
-    {
-        public int Id;
-        public string Username;
-        public string Tipo;
-        public string Resultado;
-    }
 
     public partial class Login : Form
     {
@@ -30,9 +22,9 @@ namespace ClienteAPI
             InitializeComponent();
         }
 
-        private ResultadoLogin deserializar(string content)
+        private JsonResponses.ResultadoLogin deserializar(string content)
         {
-            return JsonConvert.DeserializeObject<ResultadoLogin>(content);
+            return JsonConvert.DeserializeObject<JsonResponses.ResultadoLogin>(content);
         }
 
 
@@ -58,8 +50,10 @@ namespace ClienteAPI
                 MessageBox.Show("Login Invalido");
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                ResultadoLogin resultado = this.deserializar(response.Content);
-                MessageBox.Show(resultado.Tipo);
+                JsonResponses.ResultadoLogin resultado = this.deserializar(response.Content);
+                Principal formPrincipal = new Principal();
+                formPrincipal.GetResultado(resultado);
+                formPrincipal.Show();
             }
         }
     }
