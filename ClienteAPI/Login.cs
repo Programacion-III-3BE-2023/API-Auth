@@ -30,7 +30,20 @@ namespace ClienteAPI
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            RestResponse response = AutenticarConAPI();
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                MessageBox.Show("Login Invalido");
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                JsonResponses.ResultadoLogin resultado = this.deserializar(response.Content);
+                Principal formPrincipal = new Principal();
+                formPrincipal.GetResultado(resultado);
+                formPrincipal.Show();
+            }
+        }
 
+        private RestResponse AutenticarConAPI()
+        {
             Dictionary<string, string> requestBody = new Dictionary<string, string>(){
                 { "username", txtUsername.Text },
                 { "password", txtPassword.Text }
@@ -46,15 +59,7 @@ namespace ClienteAPI
             request.AddHeader("Content-Type", "application/json");
 
             RestResponse response = client.Execute(request);
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-                MessageBox.Show("Login Invalido");
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                JsonResponses.ResultadoLogin resultado = this.deserializar(response.Content);
-                Principal formPrincipal = new Principal();
-                formPrincipal.GetResultado(resultado);
-                formPrincipal.Show();
-            }
+            return response;
         }
     }
 }

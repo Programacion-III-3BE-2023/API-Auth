@@ -22,6 +22,12 @@ namespace ClienteAPI
             lblUsername.Text = data.Username;
         }
 
+        private List<JsonResponses.User> deserializar(string content)
+        {
+            return JsonConvert.DeserializeObject<List<JsonResponses.User>>(content);
+        }
+
+
         public Principal()
         {
             InitializeComponent();
@@ -29,17 +35,43 @@ namespace ClienteAPI
 
         private void Principal_Load(object sender, EventArgs e)
         {
+            DataTable tabla = obtenerDataTable();
+            dataGridView1.DataSource = tabla;
+        }
 
+        private DataTable obtenerDataTable()
+        {
+            RestResponse response = pedirListaDeUsuariosEnAPI();
+
+            DataTable tabla = new DataTable();
+            tabla.Columns.Add("Id", typeof(int));
+            tabla.Columns.Add("Username", typeof(string));
+            tabla.Columns.Add("Tipo", typeof(string));
+
+            foreach (JsonResponses.User user in deserializar(response.Content))
+            {
+                llenarDataTable(tabla, user);
+            }
+
+            return tabla;
+        }
+
+        private static void llenarDataTable(DataTable tabla, JsonResponses.User user)
+        {
+            DataRow fila = tabla.NewRow();
+            fila["Id"] = user.Id;
+            fila["Username"] = user.Username;
+            fila["Tipo"] = user.Tipo;
+            tabla.Rows.Add(fila);
+        }
+
+        private static RestResponse pedirListaDeUsuariosEnAPI()
+        {
             RestClient client = new RestClient("http://localhost:49923");
-            RestRequest request = new RestRequest("/api/login", Method.Get);
+            RestRequest request = new RestRequest("/api/user", Method.Get);
             request.AddHeader("Accept", "application/json");
-            request.AddHeader("Content-Type", "application/json");
-
             RestResponse response = client.Execute(request);
-
-            // Mandar al datagridview :)
-
-
+            return response;
         }
     }
 }
